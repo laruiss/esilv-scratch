@@ -1,1 +1,1 @@
-console.log('Message de main.js')
+import './main.css'
