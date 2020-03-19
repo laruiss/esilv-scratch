@@ -15,6 +15,7 @@
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.1.0",
     "postcss-apply": "^0.12.0"
   }
 }
