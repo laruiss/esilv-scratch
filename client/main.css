@@ -4,3 +4,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.main-footer {
+    @apply fixed  w-full  bottom-0  py-2  text-center  bg-purple-700  text-white;
+}
