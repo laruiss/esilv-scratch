@@ -1,0 +1,160 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.112.0/containers/docker-existing-docker-compose
+// If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
+{
+	"name": "Node.js 13 server (express)",
+
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"../../docker-compose.yml",
+		// "./docker-compose.yml",
+	],
+
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "server",
+
+	// The optional 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/workspace",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/zsh",
+		"createTests.defaultLocationForTestFiles": "same location as source file",
+		"createTests.testFilesSuffix": "spec",
+		"createTests.testDirectoryName": "",
+		"createTests.template.default": {
+			"Basic": [
+				"import ${moduleName} from './${modulePath}'",
+				"",
+				"describe('${moduleName}', () => {",
+				"  it('Should ', () => {",
+				"  })",
+				"})"
+			]
+		},
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
+		"editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monospace",
+		"editor.fontLigatures": true,
+		"editor.minimap.enabled": false,
+		"editor.multiCursorModifier": "alt",
+		"editor.suggestSelection": "first",
+		"eslint.alwaysShowStatus": true,
+		"eslint.enable": true,
+		"eslint.validate": [
+			"html",
+			"javascript",
+		],
+		"explorer.confirmDragAndDrop": false,
+		"explorer.openEditors.visible": 0,
+		"[es-beautifier]": {
+			"editor.defaultFormatter": "teeLang.vsprettier"
+		},
+		"files.exclude": {
+			"**/.classpath": true,
+			"**/.project": true,
+			"**/.settings": true,
+			"**/.factorypath": true
+		},
+		"git.autofetch": true,
+		"gitlens.advanced.messages": {
+			"suppressShowKeyBindingsNotice": true
+		},
+		"[html]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"javascript.implicitProjectConfig.checkJs": true,
+		"javascript.preferences.quoteStyle": "single",
+		"javascript.updateImportsOnFileMove.enabled": "always",
+		"javascript.validate.enable": false,
+		"[javascript]": {
+			"editor.defaultFormatter": "prettier-eslint"
+		},
+		"jestrunner.jestCommand": "npm test",
+		"mongoShell.host": "localhost",
+		"mongoShell.path": "docker exec server_db_1 mongo",
+		"mongoShell.port": "27017",
+		"mongoShell.username": "admin",
+		"npm.enableScriptExplorer": true,
+		"npm.enableRunFromFolder": true,
+		"prettier.trailingComma": "all",
+		"prettier.singleQuote": true,
+		"timeline.showView": true,
+		"vetur.experimental.templateInterpolationService": true,
+		"vetur.format.defaultFormatter.html": "js-beautify-html",
+		"vetur.format.defaultFormatter.js": "prettier-eslint",
+		"vetur.grammar.customBlocks": {
+			"docs": "md",
+			"i18n": "json",
+			"preview-props": "json"
+		},
+		"vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+		"vsprettier.useEsLint": true,
+		"workbench.editor.limit.value": 9,
+		"workbench.editor.limit.perEditorGroup": false,
+		"workbench.editor.limit.enabled": true,
+		"workbench.sideBar.location": "right",
+		"workbench.editor.showTabs": true,
+		"workbench.activityBar.visible": true,
+		"peacock.vslsJoinColor": "#1857a4",
+		"[json]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"editor.cursorBlinking": "smooth",
+		"terminal.integrated.fontFamily": "monospace"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"aaron-bond.better-comments",
+		"xabikos.javascriptsnippets",
+		"steoates.autoimport",
+		"devzstudio.emoji-snippets",
+		"ms-ceintl.vscode-language-pack-fr",
+		"capaj.vscode-standardjs-snippets",
+		"johnpapa.vscode-peacock",
+		"stevencl.adddoccomments",
+		"steoates.autoimport",
+		"ms-azuretools.vscode-cosmosdb",
+		"mgmcdermott.vscode-language-babel",
+		"bungcip.better-toml",
+		"wmaurer.change-case",
+		"hardikmodha.create-tests",
+		"dbaeumer.vscode-eslint",
+		"mhutchie.git-graph",
+		"eamodio.gitlens",
+		"kisstkondoros.vscode-gutter-preview",
+		"oderwat.indent-rainbow",
+		"firsttris.vscode-jest-runner",
+		"eg2.vscode-npm-script",
+		"christian-kohler.npm-intellisense",
+		"christian-kohler.path-intellisense",
+		"humao.rest-client",
+		"shinnn.stylelint",
+		"minhthai.vscode-todo-parser",
+		"pflannery.vscode-versionlens",
+		"visualstudioexptteam.vscodeintellicode",
+		"lucasazzola.vscode-levels",
+		"esbenp.prettier-vscode"
+	],
+
+	"forwardPorts": [
+		3000
+	],
+
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+
+	// Uncomment the next line to run commands after the container is created - for example installing git.
+	// "postCreateCommand": "apt-get update && apt-get install -y git",
+
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+}

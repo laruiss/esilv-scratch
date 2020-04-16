@@ -1,0 +1,97 @@
+#-------------------------------------------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
+#-------------------------------------------------------------------------------------------------------------
+
+version: '3'
+services:
+  client:
+    # Uncomment the next line to use a non-root user for all processes. You can also
+    # simply use the "remoteUser" property in devcontainer.json if you just want VS Code
+    # and its sub-processes (terminals, tasks, debugging) to execute as the user. On Linux,
+    # you may need to update USER_UID and USER_GID in .devcontainer/Dockerfile to match your
+    # user if not 1000. See https://aka.ms/vscode-remote/containers/non-root for details.
+    # user: node
+
+    build: 
+      context: client/.devcontainer
+      dockerfile: Dockerfile
+    
+    environment:
+      SERVER_HOST: server
+      SERVER_PORT: 4000
+      PORT: 4040
+
+    ports:
+      - "${CLIENT_PORT:-4040}:4040"
+        
+    volumes:
+      - .:/workspace:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+    
+    links:
+      - server
+
+  server:
+    # Uncomment the next line to use a non-root user for all processes. You can also
+    # simply use the "remoteUser" property in devcontainer.json if you just want VS Code
+    # and its sub-processes (terminals, tasks, debugging) to execute as the user. On Linux,
+    # you may need to update USER_UID and USER_GID in .devcontainer/Dockerfile to match your
+    # user if not 1000. See https://aka.ms/vscode-remote/containers/non-root for details.
+    # user: node
+
+    build: 
+      context: server/.devcontainer
+      dockerfile: Dockerfile
+
+    environment:
+      SERVER_PORT: 4000
+      DB_NAME: ${DB_NAME:-esilv}
+      DB_USER: ${DB_USER:-adminEsilv}
+      DB_PASS: ${DB_PASS:-changeme92}
+      DB_HOST: ${DB_PASS:-db}
+    
+    ports:
+      - "${SERVER_PORT:-4000}:4000"
+      - "9229:9229"
+
+    volumes:
+      - .:/workspace:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+    
+    links:
+      - db
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 8000:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_ROOT_USER:-admin}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_ROOT_PASS:-changeme}
+      ME_CONFIG_MONGODB_SERVER: db
+    
+    
+  db:
+    image: mongo:4.2.5
+    restart: unless-stopped
+    volumes:
+      - ../mongo-dev/db:/data/db
+      - ./server/init-db/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASS:-changeme}
+      MONGO_INITDB_DATABASE: ${DB_NAME:-esilv}
+      DB_USER: ${DB_USER:-adminEsilv}
+      DB_PASS: ${DB_PASS:-changeme92}
+      DB_NAME: ${DB_NAME:-esilv}
+  
