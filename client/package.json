@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node proxy.js",
     "build": "parcel build index.html",
+    "lint": "eslint *.js",
     "preserve:prod": "npm run build",
     "serve:prod": "serve dist",
     "deploy": "surge dist"
